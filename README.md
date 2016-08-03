@@ -40,6 +40,10 @@ This code is licensed under the MIT license.  See the LICENSE file.
 
  - Due to how regular expressions work on Emacs, doesn't support Unicode digits.
 
+ - Due to how `font-lock` and regular expressions work in Emacs, sometimes
+   prevents highlighting that `font-lock` would normally do for the first
+   non-digit character after a sequence of digits.
+
 ## Contributing
 
 I am looking for someone to take over maintenance of this package.
