@@ -52,12 +52,12 @@ I wrote this software to solve a particular problem that I had, which it now
 does.  Unfortunately, I am fairly busy and don't have much time for on-going
 maintenance.  This has a few consequences.
 
- 1. Suggestions and improvements are welcome, but I may not get to them for
-    quite some time.
+ - Suggestions and improvements are welcome, but I may not get to them for
+   quite some time.
 
- 2. The less work I have to do to include your improvement, the more quickly
-    and more likely I will include it.  The best case is a pull request that
-    has a good comment explaining what it does and why and has a simple enough
-    diff that it is obviously correct.
+ - The less work I have to do to include your improvement, the more quickly
+   and more likely I will include it.  The best case is a pull request that
+   has a good comment explaining what it does and why and has a simple enough
+   diff that it is obviously correct.
 
- 3. I would love to find someone who can take over maintenance of this package.
+ - I would love to find someone who can take over maintenance of this package.
