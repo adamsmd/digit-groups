@@ -1,7 +1,7 @@
 // Run `digit-groups-enable` if digit groups is not already enabled for this
 // buffer.
 
-// With the default configuration, the 1 digits the all the following text
+// With the default configuration, the 1 digits in all the following text
 // should be in bold.
 
 // 1001001001001001001001001001001001001000.00100100100100100100100100

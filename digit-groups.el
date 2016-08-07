@@ -1,24 +1,25 @@
-;;; digit-groups -- Make it easier to read large numbers by highlighting digits at specified place-value positions (e.g., thousand, million, billion, etc.)
-
-;; Copyright (C) 2016 Michael D. Adams
+;;; digit-groups -- Make it easier to read large numbers by highlighting digits at selected place-value positions (e.g., thousands place, millions place, billions place, etc.)
 
 ;; Author: Michael D. Adams <http://michaeldadams.org>
 ;; URL: http://bitbucket.com/adamsmd/digit-groups
 ;; License: MIT
 ;; Version: 0.1
-;; Package-Version: 0.1
 ;; Package-Requires: ((dash "2.12.1"))
 
+;; The MIT License (MIT)
+;;
+;; Copyright (C) 2016 Michael D. Adams
+;;
 ;; Permission is hereby granted, free of charge, to any person obtaining a
 ;; copy of this software and associated documentation files (the "Software"),
 ;; to deal in the Software without restriction, including without limitation
 ;; the rights to use, copy, modify, merge, publish, distribute, sublicense,
 ;; and/or sell copies of the Software, and to permit persons to whom the
 ;; Software is furnished to do so, subject to the following conditions:
-
+;;
 ;; The above copyright notice and this permission notice shall be included in
 ;; all copies or substantial portions of the Software.
-
+;;
 ;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 ;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 ;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,48 +35,61 @@
 
 (require 'dash)
 
-(defvar digit-groups-old-mode-hooks nil)
+(defvar digit-groups--old-mode-hooks nil)
 ;;;### autoload
 (defun digit-groups--set-mode-hooks (symbol value)
   "Set digit-group-mode-hooks (which SYMBOL must be) to VALUE."
   (set-default symbol value)
-  (--map (remove-hook it 'digit-groups-enable)
-         digit-groups-old-mode-hooks)
-  (setq digit-groups-old-mode-hooks value)
+  (--map (remove-hook it 'digit-groups-enable) digit-groups--old-mode-hooks)
+  (setq digit-groups--old-mode-hooks value)
   (--map (add-hook it 'digit-groups-enable) value))
 
-;;; BEGIN CUSTOM
+;;; BEGIN CUSTOM VARIABLES
 
 (defgroup digit-groups nil
-  "Make it easier to read large numbers by highlighting digits at selected place-value positions (e.g., thousand, million, billion, etc.).
+  "Make it easier to read large numbers by highlighting digits at selected place-value positions (e.g., thousands place, millions place, billions place, etc.).
 
 For example, in the text `9876543210.123456789`, the default
-configuration would make bold the 3, 6, and 9 before the
-decimal (`.`) because they are in the thousand's, million's, and
-billion's positions as well as the 3, 6, and 9 after the
-decimal (`.`) because they are in the thousandth's, millionth's,
-and billionth's positions.
+configuration formats in bold the 3, 6, and 9 before the
+decimal (`.`) because they are in the thousands, millions, and
+billions positions as well as the 3, 6, and 9 after the
+decimal (`.`) because they are in the thousandths, millionths,
+and billionths positions.
 
-In order to work, requires that font-lock-mode be enabled.  To
-enable `digit-groups`, customize `digit-groups-mode-hooks` to
-include the mode hooks for the modes on which you want it
-enabled.  To enable for all modes, customize
-`digit-groups-mode-hooks` to `'(text-mode-hook prog-mode-hook
-special-mode-hook).` To enable for just the current buffer call
-`digit-groups-enable`.
+To use this package, customize `digit-groups-mode-hooks` to be a
+list of mode hooks for the modes in which you want highlighting
+and make sure `font-lock-mode` is enabled for those modes.  For
+example, the following customization will enable highlighting for
+all modes.
 
-The default configuration highlights every place-value position
-for 10^i when i is a multiple of 3 between 3 and 60 or -3 and
--60 (inclusive).  This can be changed by customizing
-`digit-groups-groups`.
+    (custom-set-variables
+      '(digit-groups-mode-hooks
+        (quote (text-mode-hook prog-mode-hook special-mode-hook))))
 
-Changes to the configuration may require you to reload any
-affected buffers."
+If you want highlighting for just the current buffer, first, make
+sure `font-lock-mode` is enabled for the current buffer, then
+call the `digit-groups-enable` function.
+
+The default configuration highlights every third place-value
+position between the novemdecillionths (10^-60) position and the
+novemdecillions (10^60) position with the exception of the
+units (10^0) position.  That is to say, it highlights the 10^i
+place-value position when i is a multiple of 3 between -60 and
+60 (inclusive) but is not 0.  This highlights the thousands,
+millions, billions, etc. positions as well as the thousandths,
+millionths, billionths, etc. positions.  This can be changed by
+customizing `digit-groups-groups`.
+
+Changes to the configuration take effect only when a mode hook in
+`digit-groups-mode-hooks` is run.  Thus, you may need to reload
+any affected buffers before you see the effect of any
+configuration changes."
   :group 'font-lock
   :package-version '(digit-groups . "0.1"))
 
 (defcustom digit-groups-mode-hooks nil
-  "The mode hooks for the modes in which to highlight digit groups.  To enable for everything, set to '(text-mode-hook prog-mode-hook special-mode-hook)."
+  "A list of the mode hooks for the modes in which to highlight digit groups.
+To enable for everything, set to '(text-mode-hook prog-mode-hook special-mode-hook)."
   :type '(repeat symbol)
   :group 'digit-groups
   :set 'digit-groups--set-mode-hooks)
@@ -97,16 +111,18 @@ hundredth's digit, -3 for the thousandth's digit, etc."
   :group 'digit-groups)
 
 (defcustom digit-groups-decimal-separator "\\."
-  "Separator between integral and factional parts of a number.  Common values include `\\\\.`, `,`, and `\\\\.\\|,`."
+  "Separator between integral and factional parts of a number.
+Common values include `\\\\.`, `,`, and `\\\\.\\|,`."
   :type '(regexp)
   :group 'digit-groups)
 
 (defcustom digit-groups-digits "[:digit:]"
-  "What characters count as a digit.  Will be place inside character-class brackets.  Must not start with `^`."
+  "What characters count as a digit.
+Will be placed inside character-class brackets.  Must not start with `^`."
   :type '(string)
   :group 'digit-groups)
 
-;;; END CUSTOM
+;;; END CUSTOM VARIABLES
 
 (defun digit-groups--repeat-string (n s)
   "Concatenate N copies of S."
@@ -118,11 +134,11 @@ hundredth's digit, -3 for the thousandth's digit, etc."
   "Add a group of size N to OLD.
 If N is non-negative, add a pre-decimal group.  Otherwise, add a post-decimal group."
   (let ((highlighted (concat "\\(" "[" digit-groups-digits "]" "\\)"))
-        (non-highlighted (digit-groups--repeat-string (- (abs n) 1) (concat "[" digit-groups-digits "]"))))
-    (let ((group
-           (if (>= n 0)
-               (concat highlighted non-highlighted)
-             (concat non-highlighted highlighted))))
+        (non-highlighted (digit-groups--repeat-string
+                          (- (abs n) 1) (concat "[" digit-groups-digits "]"))))
+    (let ((group (if (>= n 0)
+                     (concat highlighted non-highlighted)
+                   (concat non-highlighted highlighted))))
       (if (string-equal "" old)
           group
         (concat "\\(?:" old "\\)?" group)))))
@@ -140,7 +156,7 @@ If N is non-negative, add a pre-decimal group.  Otherwise, add a post-decimal gr
 
 ;;;### autoload
 (defun digit-groups-enable ()
-  "Add font-lock keywords to highlight digit groups in the current buffer."
+  "Add to `font-lock-keywords` to highlight digit groups in the current buffer."
   (interactive)
   (let ((faces
          (--map-indexed
