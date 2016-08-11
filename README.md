@@ -12,12 +12,16 @@ billionths positions.
 
 To use this package, customize `digit-groups-mode-hooks` to be a list of mode
 hooks for the modes in which you want highlighting and make sure
-`font-lock-mode` is enabled for those modes.  For example, the following
-customization will enable highlighting for all modes.
+`font-lock-mode` is enabled for those modes.  For example, to enable
+highlighting for all modes, either customize `digit-groups-mode-hooks` to be
+`'(text-mode-hook prog-mode-hook special-mode-hook)` or add the following
+clause to the `custom-set-variables` in your `.emacs`.
 
     (custom-set-variables
+      ...
       '(digit-groups-mode-hooks
-        (quote (text-mode-hook prog-mode-hook special-mode-hook))))
+        (quote (text-mode-hook prog-mode-hook special-mode-hook)))
+      ...)
 
 If you want highlighting for just the current buffer, first, make sure
 `font-lock-mode` is enabled for the current buffer, then call the
@@ -55,14 +59,23 @@ TODO: write once we can test installation from MELPA
 
 - Copy `digit-groups.el` to your `load-path`.
 
-- Load the package with `(require 'digit-groups)`.
+- Load the package by either manually running `(require 'digit-groups)` or
+  adding the following to your `.emacs`.  (If you don't use `after-init-hook`,
+  you may get an error when `digit-groups` `require`s `dash`.)
+
+        (add-hook 'after-init-hook (lambda () (require 'digit-groups)))
 
 - Select the modes for which you want to highlight digit groups by customizing
-  `digit-groups-mode-hooks`.  For example, do something like the following.
+  `digit-groups-mode-hooks`.  For example, to enable highlighting for all
+  modes, either customize `digit-groups-mode-hooks` to be `'(text-mode-hook
+  prog-mode-hook special-mode-hook)` or add the following clause to the
+  `custom-set-variables` in your `.emacs`.
 
         (custom-set-variables
+          ...
           '(digit-groups-mode-hooks
-            (quote (text-mode-hook prog-mode-hook special-mode-hook))))
+            (quote (text-mode-hook prog-mode-hook special-mode-hook)))
+          ...)
 
 - Make sure `font-lock-mode` is enabled for those modes.
 

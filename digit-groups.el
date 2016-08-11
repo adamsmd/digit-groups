@@ -59,12 +59,16 @@ and billionths positions.
 To use this package, customize `digit-groups-mode-hooks` to be a
 list of mode hooks for the modes in which you want highlighting
 and make sure `font-lock-mode` is enabled for those modes.  For
-example, the following customization will enable highlighting for
-all modes.
+example, to enable highlighting for all modes, either customize
+`digit-groups-mode-hooks` to be `'(text-mode-hook prog-mode-hook
+special-mode-hook)` or add the following clause to the
+`custom-set-variables` in your `.emacs`.
 
     (custom-set-variables
+      ...
       '(digit-groups-mode-hooks
-        (quote (text-mode-hook prog-mode-hook special-mode-hook))))
+        (quote (text-mode-hook prog-mode-hook special-mode-hook)))
+      ...)
 
 If you want highlighting for just the current buffer, first, make
 sure `font-lock-mode` is enabled for the current buffer, then
