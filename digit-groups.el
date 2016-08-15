@@ -1,4 +1,4 @@
-;;; digit-groups -- Make it easier to read large numbers by highlighting digits at selected place-value positions (e.g., thousands place, millions place, billions place, etc.)
+;;; digit-groups.el --- Make it easier to read large numbers by highlighting digits at selected place-value positions (e.g., thousands place, millions place, billions place, etc.)
 
 ;; Author: Michael D. Adams <http://michaeldadams.org>
 ;; URL: http://bitbucket.com/adamsmd/digit-groups
