@@ -40,9 +40,11 @@
 (defun digit-groups--set-mode-hooks (symbol value)
   "Set digit-group-mode-hooks (which SYMBOL must be) to VALUE."
   (set-default symbol value)
-  (--map (remove-hook it 'digit-groups-enable) digit-groups--old-mode-hooks)
+  (dolist (it digit-groups--old-mode-hooks)
+    (remove-hook it 'digit-groups-enable))
   (setq digit-groups--old-mode-hooks value)
-  (--map (add-hook it 'digit-groups-enable) value))
+  (dolist (it value)
+    (add-hook it 'digit-groups-enable) value))
 
 ;;; BEGIN CUSTOM VARIABLES
 
