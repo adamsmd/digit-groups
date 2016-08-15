@@ -55,13 +55,23 @@ source code.
 
 ## Installation
 
-### Installation from MELPA
+- Install the package files
 
-TODO: write once we can test installation from MELPA
+    - Option 1 (preferred): Install from MELPA
 
-### Manual Installation
+        - Enable installation of packages from MELPA (see TODO).
 
-- Copy `digit-groups.el` to your `load-path`.
+        - Launch Emacs's package manager from the menu with `Options -> Manage
+          Emacs Packages` or manually with `M-x package-list-packages`.
+
+        - Select the `digit-groups` package for installation.
+
+    - Option 2: Install manually
+
+        - Download the source code with:
+          `hg clone ssh://hg@bitbucket.org/adamsmd/digit-groups`
+
+        - Copy `digit-groups.el` into a directory in your `load-path`.
 
 - Load the package by either manually running `(require 'digit-groups)` or
   adding the following to your `.emacs`.  (If you don't use `after-init-hook`,
