@@ -36,7 +36,7 @@
 (require 'dash)
 
 (defvar digit-groups--old-mode-hooks nil)
-;;;### autoload
+;;;###autoload
 (defun digit-groups--set-mode-hooks (symbol value)
   "Set digit-group-mode-hooks (which SYMBOL must be) to VALUE."
   (set-default symbol value)
@@ -165,7 +165,7 @@ If N is non-negative, add a pre-decimal group.  Otherwise, add a post-decimal gr
      (- (car (cdr positions)) (car positions))
      (digit-groups--make-group-regexp (cdr positions))))))
 
-;;;### autoload
+;;;###autoload
 (defun digit-groups-enable ()
   "Add to `font-lock-keywords` to highlight digit groups in the current buffer."
   (interactive)
