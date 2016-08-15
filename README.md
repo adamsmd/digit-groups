@@ -59,7 +59,8 @@ source code.
 
     - Option 1 (preferred): Install from MELPA
 
-        - Enable installation of packages from MELPA (see TODO).
+        - Enable installation of packages from MELPA
+          (see <http://melpa.org/#/getting-started>).
 
         - Launch Emacs's package manager from the menu with `Options -> Manage
           Emacs Packages` or manually with `M-x package-list-packages`.
