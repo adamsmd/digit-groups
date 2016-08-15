@@ -27,6 +27,10 @@ If you want highlighting for just the current buffer, first, make sure
 `font-lock-mode` is enabled for the current buffer, then call the
 `digit-groups-enable` function.
 
+The default configuration highlights digits by making them bold.  This can be
+changed by customizing `digit-groups-default-face`, or you can highlight
+different positions with different faces by customizing `digit-groups-groups`.
+
 The default configuration highlights every third place-value position between
 the novemdecillionths (10^-60) position and the novemdecillions (10^60)
 position with the exception of the units (10^0) position.  That is to say, it
