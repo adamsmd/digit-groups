@@ -1,47 +1,35 @@
 # Digit Groups
 
-The `digit-groups` Emacs package makes it easier to read large numbers by
-highlighting digits at selected place-value positions (e.g., thousands place,
-millions place, billions place, etc.).
+The `digit-groups` Emacs package adds the `digit-groups-mode`
+minor mode, which makes it easier to read large numbers by
+highlighting digits at selected place-value positions (e.g.,
+thousands place, millions place, billions place, etc.).
 
-For example, in the text `9876543210.123456789`, the default configuration
-formats in bold the 3, 6, and 9 before the decimal (`.`) because they are in
-the thousands, millions, and billions positions as well as the 3, 6, and 9
-after the decimal (`.`) because they are in the thousandths, millionths, and
-billionths positions.
+The default configuration formats in bold every other group of
+three digits.  So, for example, in `9876543210.123456789`, the
+digits 3, 4, 5 and 9 are highlighted both before and after the
+decimal (`.`).  This makes it easy to find the place-value
+positions for thousands, millions, billions, and so forth.
 
-To use this package, customize `digit-groups-mode-hooks` to be a list of mode
-hooks for the modes in which you want highlighting and make sure
-`font-lock-mode` is enabled for those modes.  For example, to enable
-highlighting for all modes, either customize `digit-groups-mode-hooks` to be
-`'(text-mode-hook prog-mode-hook special-mode-hook)` or add the following
-clause to the `custom-set-variables` in your `.emacs`.
+To use this package, enable the `digit-groups-mode` minor mode in
+the buffers in which you wish to use it, or to enable it for all
+buffers, customize `digit-groups-global-mode` to `t`.
 
-    (custom-set-variables
-      ...
-      '(digit-groups-mode-hooks
-        (quote (text-mode-hook prog-mode-hook special-mode-hook)))
-      ...)
+The default configuration highlights digits by making them bold.
+This can be changed by customizing `digit-groups-default-face`,
+or you can highlight different positions with different faces by
+customizing `digit-groups-groups`.
 
-If you want highlighting for just the current buffer, first, make sure
-`font-lock-mode` is enabled for the current buffer, then call the
-`digit-groups-enable` function.
+The default configuration highlights every other group of three
+digits between the novemdecillionths (10^-60) position and the
+novemdecillions (10^60) position with the exception of the
+units (10^0) position.  This can be changed by customizing
+`digit-groups-groups`.
 
-The default configuration highlights digits by making them bold.  This can be
-changed by customizing `digit-groups-default-face`, or you can highlight
-different positions with different faces by customizing `digit-groups-groups`.
-
-The default configuration highlights every third place-value position between
-the novemdecillionths (10^-60) position and the novemdecillions (10^60)
-position with the exception of the units (10^0) position.  That is to say, it
-highlights the 10^i place-value position when i is a multiple of 3 between -60
-and 60 (inclusive) but is not 0.  This highlights the thousands, millions,
-billions, etc. positions as well as the thousandths, millionths, billionths,
-etc. positions.  This can be changed by customizing `digit-groups-groups`.
-
-Changes to the configuration take effect only when a mode hook in
-`digit-groups-mode-hooks` is run.  Thus, you may need to reload any affected
-buffers before you see the effect of any configuration changes.
+Changes to the configuration take effect only when the
+`digit-groups-mode` minor mode is being turned on.  Thus, you may
+need to toggle the mode off and on again in affected buffers
+before you see the effect of any configuration changes.
 
 ## Source
 
@@ -74,31 +62,24 @@ source code.
 
         - Copy `digit-groups.el` into a directory in your `load-path`.
 
-- Load the package by either manually running `(require 'digit-groups)` or
-  adding the following to your `.emacs`.  (If you don't use `after-init-hook`,
-  you may get an error when `digit-groups` `require`s `dash`.)
+        - Load the package by either running `(require 'digit-groups)`
+          manually or adding the following to your `.emacs`.  (If you don't
+          use `after-init-hook`, you may get an error when `digit-groups`
+          `require`s `dash`.)
 
-        (add-hook 'after-init-hook (lambda () (require 'digit-groups)))
+                (add-hook 'after-init-hook (lambda () (require 'digit-groups)))
 
-- Select the modes for which you want to highlight digit groups by customizing
-  `digit-groups-mode-hooks`.  For example, to enable highlighting for all
-  modes, either customize `digit-groups-mode-hooks` to be `'(text-mode-hook
-  prog-mode-hook special-mode-hook)` or add the following clause to the
-  `custom-set-variables` in your `.emacs`.
-
-        (custom-set-variables
-          ...
-          '(digit-groups-mode-hooks
-            (quote (text-mode-hook prog-mode-hook special-mode-hook)))
-          ...)
-
-- Make sure `font-lock-mode` is enabled for those modes.
+- Enable the `digit-groups-mode` minor mode in the buffers in which you wish
+  to use it, or to enable it for all buffers, customize
+  `digit-groups-global-mode` to `t`.
 
 ## Limitations
 
-- Due to how `font-lock` works, there is no good way to disable or remove the
-  `font-lock` keywords added by this package.  Any changes or removals require
-  reloading the affected buffers.
+- Since the regular expression for matching the selected place-value positions
+  is computed only when turning on the minor mode, you need to toggle the mode
+  off and on again in affected buffers before you see the effect of
+  configuration changes to `digit-groups-groups`,
+  `digit-groups-decimal-separator`, or `digit-groups-digits`.
 
 - Due to how `font-lock` works, this package can highlight only a fixed number
   of place-value positions.  Thus, the default configuration goes only between
