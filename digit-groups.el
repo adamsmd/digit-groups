@@ -215,8 +215,9 @@ If N is non-negative, add a pre-decimal group.  Otherwise, add a post-decimal gr
                   (--sort (> (car it) (car other)) digit-groups-groups)))))
           (list (cons regexp faces)))))))
 
-(defvar-local digit-groups--installed-keywords nil
+(defvar digit-groups--installed-keywords nil
   "If non-nil, the keywords added to `font-lock-keywords` by `digit-groups--add-keywords`.")
+(make-variable-buffer-local 'digit-groups--installed-keywords)
 
 (defun digit-groups--add-keywords ()
   "Add to `font-lock-keywords` to highlight digit groups in the current buffer."
