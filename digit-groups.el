@@ -1,7 +1,7 @@
 ;;; digit-groups.el --- Highlight place-value positions in numbers
 
 ;; Author: Michael D. Adams <http://michaeldadams.org>
-;; URL: http://bitbucket.com/adamsmd/digit-groups
+;; URL: https://github.com/adamsmd/digit-groups/
 ;; License: MIT
 ;; Version: 0.2
 ;; Package-Requires: ((dash "2.11.0"))
