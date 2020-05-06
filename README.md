@@ -34,7 +34,7 @@ before you see the effect of any configuration changes.
 ## Source
 
 The source code for this package is available at:
-  <http://bitbucket.com/adamsmd/digit-groups>
+  <https://github.com/adamsmd/digit-groups/>
 
 ## License
 
